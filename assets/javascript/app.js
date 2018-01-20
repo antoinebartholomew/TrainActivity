@@ -1,11 +1,20 @@
 
+
+
+
+
+
+
+
 // 1. Initialize Firebase
 var config = {
-  apiKey: "AIzaSyA_QypGPkcjPtylRDscf7-HQl8ribnFeIs",
-  authDomain: "time-sheet-55009.firebaseapp.com",
-  databaseURL: "https://time-sheet-55009.firebaseio.com",
-  storageBucket: "time-sheet-55009.appspot.com"
-};
+    apiKey: "AIzaSyAVa2klY2hbJSCluHyhZhbGOOiOF2zOrao",
+    authDomain: "traintimes-5c272.firebaseapp.com",
+    databaseURL: "https://traintimes-5c272.firebaseio.com",
+    projectId: "traintimes-5c272",
+    storageBucket: "traintimes-5c272.appspot.com",
+    messagingSenderId: "983995110868"
+  };
 
 firebase.initializeApp(config);
 
@@ -18,16 +27,15 @@ $("#add-train-btn").on("click", function(event) {
   // Grabs user input
   var trainName = $("#train-name").val().trim();
   var Destination = $("#Destination").val().trim();
-  // change line 31 to military time
-  var FirstTrainTime = moment($("#FirstTrainTime").val().trim(), "DD/MM/YY").format("X");
+  var FirstTrain = moment($("#FirstTrainTime").val().trim(), "DD/MM/YY").format("'MMMM Do YYYY, h:mm:ss a'");
   var Frequency = $("#Frequency").val().trim();
 
   // Creates local "temporary" object for holding employee data
   var newTrain = {
-    Name: trainName,
+    name: trainName,
     whereTo: Destination,
-    TrainTime: FirstTrainTime,
-    Frequency1: Frequency
+    trainTime: FirstTrain,
+    frequency1: Frequency
   };
 
   // Uploads employee data to the database
@@ -36,11 +44,11 @@ $("#add-train-btn").on("click", function(event) {
   // Logs everything to console
   console.log(trainName.name);
   console.log(Destination.whereTo);
-  console.log(FirstTrainTime.TrainTime);
-  console.log(Frequency.Frequency1);
+  console.log(FirstTrain.trainTime);
+  console.log(Frequency.frequency1);
 
   // Alert
-  alert("New Train Time successfully added");
+  //alert("New Train Time successfully added");
 
   // Clears all of the text-boxes
   $("#train-name").val("");
@@ -55,15 +63,15 @@ database.ref().on("child_added", function(childSnapshot, prevChildKey) {
   console.log(childSnapshot.val());
 
   // Store everything into a variable.
-  var trainName = childSnapshot.val().Name;
+  var trainName = childSnapshot.val().name;
   var Destination = childSnapshot.val().whereTo;
-  var FirstTrainTime = childSnapshot.val().TrainTime;
-  var Frequency = childSnapshot.val().Frequency1;
+  var FirstTrain = childSnapshot.val().trainTime;
+  var Frequency = childSnapshot.val().frequency1;
 
   // Employee Info
   console.log(trainName);
   console.log(Destination);
-  console.log(FirstTrainTime);
+  console.log(FirstTrain);
   console.log(Frequency);
 
   // Prettify the employee start
@@ -80,7 +88,7 @@ database.ref().on("child_added", function(childSnapshot, prevChildKey) {
 
   // Add each train's data into the table
   $("#train-table > tbody").append("<tr><td>" + trainName + "</td><td>" + Destination + "</td><td>" +
-  FirstTrainTime + "</td><td>" + Frequency + "</td><td>" + empRate + "</td><td>" + empBilled + "</td></tr>");
+  FirstTrainTime + "</td><td>" + Frequency + "</td><td>" );
 });
 
 // Example Time Math
